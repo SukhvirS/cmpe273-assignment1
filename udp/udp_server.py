@@ -13,15 +13,16 @@ def listen_forever():
     while True:
         # get the data sent to us
         data, ip = s.recvfrom(BUFFER_SIZE)
-        print("{}: {}".format(ip, data.decode(encoding="utf-8").strip()))
+        dataReceived = data.decode(encoding='utf-8').strip()
+        splitData = dataReceived.split(':')
+        # print("----",splitData)
+        ack = int(splitData[1])
+        print("{}: {}".format(ip, dataReceived))
+
+        returnAck = ack + 1
+        MESSAGE = splitData[0]+":"+str(returnAck)+":pong"
+
         # reply back to the client
-
-        # FOR TESTING
-        # if '15' in data.decode():
-        #     s.sendto('sdkjfhs'.encode(), ip)
-        # else:
-        #     s.sendto(MESSAGE.encode(), ip)
-
         s.sendto(MESSAGE.encode(), ip)
 
 listen_forever()

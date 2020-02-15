@@ -1,4 +1,5 @@
 import socket
+from socket import timeout
 import uuid
 
 
@@ -12,14 +13,16 @@ fileData = [line[0:len(line)-1] for line in f.readlines()]
 
 def send(id=0):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.settimeout(0.02)  # timeout of 20ms
 
     ack = int(id)
     for x in fileData:
         randomId = uuid.uuid1()
         correctDataReceived = False
-        try:
-            # don't send next packet until last correct acknowledgement of last packet is received
-            while not correctDataReceived:
+
+        while not correctDataReceived:
+            try:
+                # don't send next packet until correct acknowledgement of last packet is received
                 s.sendto(f"{randomId}:{ack}:{x}".encode(), (UDP_IP, UDP_PORT))
                 data, ip = s.recvfrom(BUFFER_SIZE)
 
@@ -33,23 +36,15 @@ def send(id=0):
                         if 'pong' in dataReceived:
                             correctDataReceived = True
 
-            # dont sent next package until ack for last package is received
-            # while not correctDataReceived:
-            #     print('didn\'t receive ack')
-            #     s.sendto(f"{id}:{x} (ID: {randomId})".encode(), (UDP_IP, UDP_PORT))
-            #     data, ip = s.recvfrom(BUFFER_SIZE)
+            except timeout:
+                s.sendto(f"{randomId}:{ack}:{x}".encode(), (UDP_IP, UDP_PORT))
 
+            except socket.error:
+                print("Error! {}".format(socket.error))
+                exit()
 
-            # while (receivedUUID != str(randomId)) or (receivedAck != ack + 1) or ('pong' not in data.decode()):
-            #     print('didn\'t receive ack')
-            #     s.sendto(f"{id}:{x} (ID: {randomId})".encode(), (UDP_IP, UDP_PORT))
-            #     data, ip = s.recvfrom(BUFFER_SIZE)
-
-            print("received data: {}: {}".format(ip, data.decode()))
-            ack = receivedAck + 1
-        except socket.error:
-            print("Error! {}".format(socket.error))
-            exit()
+        print("received data: {}: {}".format(ip, data.decode()))
+        ack = receivedAck + 1
 
 
 def get_client_id():

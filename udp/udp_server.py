@@ -15,7 +15,7 @@ def listen_forever():
         data, ip = s.recvfrom(BUFFER_SIZE)
         dataReceived = data.decode(encoding='utf-8').strip()
         splitData = dataReceived.split(':')
-        # print("----",splitData)
+
         ack = int(splitData[1])
         print("{}: {}".format(ip, dataReceived))
 

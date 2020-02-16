@@ -20,9 +20,11 @@ def send(id=0):
         randomId = uuid.uuid1()
         correctDataReceived = False
 
+        # don't send next packet until correct acknowledgement of last packet is received
         while not correctDataReceived:
             try:
-                # don't send next packet until correct acknowledgement of last packet is received
+                # format of the data sent to server:
+                # uuid:nextAck:data
                 s.sendto(f"{randomId}:{ack}:{x}".encode(), (UDP_IP, UDP_PORT))
                 data, ip = s.recvfrom(BUFFER_SIZE)
 

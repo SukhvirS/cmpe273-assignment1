@@ -20,6 +20,9 @@ def listen_forever():
         print("{}: {}".format(ip, dataReceived))
 
         returnAck = ack + 1
+
+        # format of the data sent to the client:
+        # uuid:returnAck:pong
         MESSAGE = splitData[0]+":"+str(returnAck)+":pong"
 
         # reply back to the client

@@ -13,18 +13,18 @@ fileData = [line[0:len(line)-1] for line in f.readlines()]
 
 def send(id=0):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.settimeout(0.02)  # timeout of 20ms
+    s.settimeout(0.2)  # timeout of 20ms
 
-    ack = int(id)
+    # ack = int(id)
+    ack = 1
     for x in fileData:
         randomId = uuid.uuid1()
-        correctDataReceived = False
 
         # don't send next packet until correct acknowledgement of last packet is received
-        while not correctDataReceived:
+        while True:
             try:
                 # format of the data sent to server:
-                # uuid:nextAck:data
+                # uuid:ack:data
                 s.sendto(f"{randomId}:{ack}:{x}".encode(), (UDP_IP, UDP_PORT))
                 data, ip = s.recvfrom(BUFFER_SIZE)
 
@@ -36,14 +36,15 @@ def send(id=0):
                 if receivedUUID == str(randomId):
                     if receivedAck == ack + 1:
                         if 'pong' in dataReceived:
-                            correctDataReceived = True
+                            break
 
             except timeout:
-                s.sendto(f"{randomId}:{ack}:{x}".encode(), (UDP_IP, UDP_PORT))
+                print('Server timed out')
+                pass
 
             except socket.error:
                 print("Error! {}".format(socket.error))
-                exit()
+                pass
 
         print("received data: {}: {}".format(ip, data.decode()))
         ack = receivedAck + 1

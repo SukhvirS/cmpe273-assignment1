@@ -1,0 +1,12 @@
+received data:A:ping
+received data:B:ping
+received data:B:ping
+received data:A:ping
+received data:B:ping
+received data:B:ping
+received data:B:ping
+received data:A:ping
+received data:B:ping
+received data:B:ping
+received data:A:ping
+received data:A:ping

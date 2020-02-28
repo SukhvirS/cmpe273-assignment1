@@ -1,0 +1,12 @@
+Enter client id:A
+Connected to the server
+Starting a file (./upload.txt) upload...
+Received ack(2) from the server.
+Received ack(4) from the server.
+Received ack(6) from the server.
+Received ack(8) from the server.
+Received ack(10) from the server.
+...
+Received ack(19998) from the server.
+Received ack(20000) from the server.
+File upload successfully completed.

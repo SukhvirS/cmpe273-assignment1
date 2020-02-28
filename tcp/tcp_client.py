@@ -18,7 +18,7 @@ def send():
     s.connect((TCP_IP, TCP_PORT))
 
     for i in range(numOfMessages):
-        print('Sending data: ping')
+        print(f'Sending data: {MESSAGE}')
         s.send(f"{id}:{MESSAGE}".encode())
         data = s.recv(BUFFER_SIZE)
         print(f'Received data: {data.decode()}')

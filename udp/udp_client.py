@@ -18,7 +18,7 @@ def send(id=0):
 
     print('Connected to the server')
     print(f'Starting a file ({f.name}) upload...')
-    # ack = int(id)
+
     ack = 1
     for x in fileData:
         randomId = uuid.uuid1()
@@ -72,4 +72,3 @@ def get_client_id():
     return id
 
 send(get_client_id())
-# print('File upload successfully completed.')

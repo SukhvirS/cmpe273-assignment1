@@ -15,7 +15,6 @@ class ClientThread(threading.Thread):
         while True:
             data = self.clientSocket.recv(BUFFER_SIZE)
             if not data: 
-                # print('No data received.')
                 break
             print(f"received data:{data.decode()}")
             self.clientSocket.send("pong".encode())
@@ -25,22 +24,9 @@ def listen_forever():
     s.bind((TCP_IP, TCP_PORT))
     s.listen(1)
 
-    # conn, addr = s.accept()
-    # print(f'Connection address:{addr}')
-
     while True:
         conn, addr = s.accept()
         newThread = ClientThread(addr, conn)
         newThread.start()
-        # print(f'Connection address:{addr}')
-
-        # data = conn.recv(BUFFER_SIZE)
-        # if not data: 
-        #     print('No data received.')
-        #     break
-        # print(f"received data:{data.decode()}")
-        # conn.send("pong".encode())
-
-    # conn.close()
 
 listen_forever()

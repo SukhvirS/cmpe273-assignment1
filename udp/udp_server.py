@@ -6,18 +6,30 @@ UDP_PORT = 4000
 BUFFER_SIZE = 1024
 MESSAGE = "pong"
 
+firstTime = True
+
 def listen_forever():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.bind(("", UDP_PORT))
+    print(f'Server started at port {UDP_PORT}')
+    global firstTime
 
     while True:
         # get the data sent to us
         data, ip = s.recvfrom(BUFFER_SIZE)
+
+        if firstTime:
+            print('Accepting a file upload...')
+            firstTime = False
+
         dataReceived = data.decode(encoding='utf-8').strip()
         splitData = dataReceived.split(':')
 
+        if splitData[0] == 'Done with connection':
+            break
+
         ack = int(splitData[1])
-        print("{}: {}".format(ip, dataReceived))
+        # print("{}: {}".format(ip, dataReceived))
 
         returnAck = ack + 1
 
@@ -27,5 +39,8 @@ def listen_forever():
 
         # reply back to the client
         s.sendto(MESSAGE.encode(), ip)
+    
+    print('Upload successfully completed')
+    firstTime = True
 
 listen_forever()

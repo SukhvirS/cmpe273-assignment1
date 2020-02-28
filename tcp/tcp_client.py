@@ -32,6 +32,5 @@ def get_client_id():
     id = input("Enter client id:")
     return id
 
-
 # send(get_client_id())
 send()

@@ -15,7 +15,6 @@ def listen_forever():
     global firstTime
 
     while True:
-        # get the data sent to us
         data, ip = s.recvfrom(BUFFER_SIZE)
 
         if firstTime:
@@ -29,12 +28,9 @@ def listen_forever():
             break
 
         ack = int(splitData[1])
-        # print("{}: {}".format(ip, dataReceived))
-
         returnAck = ack + 1
 
-        # format of the data sent to the client:
-        # uuid:returnAck:pong
+        # format of the data sent to the client: uuid:ack:pong
         MESSAGE = splitData[0]+":"+str(returnAck)+":pong"
 
         # reply back to the client

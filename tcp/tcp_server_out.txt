@@ -1,12 +1,11 @@
+Server started at port 5000
+Connected Client: A
+received data:A:ping
+Connected Client: B
+received data:B:ping
+received data:A:ping
+received data:B:ping
 received data:A:ping
 received data:B:ping
 received data:B:ping
-received data:A:ping
 received data:B:ping
-received data:B:ping
-received data:B:ping
-received data:A:ping
-received data:B:ping
-received data:B:ping
-received data:A:ping
-received data:A:ping

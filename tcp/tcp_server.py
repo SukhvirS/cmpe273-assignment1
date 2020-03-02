@@ -12,17 +12,23 @@ class ClientThread(threading.Thread):
         self.clientAddress = clientAddress
 
     def run(self):
+        intro = True
         while True:
             data = self.clientSocket.recv(BUFFER_SIZE)
             if not data: 
                 break
-            print(f"received data:{data.decode()}")
+            if intro:
+                print(data.decode())
+                intro = False
+            else:
+                print(f"received data:{data.decode()}")
             self.clientSocket.send("pong".encode())
 
 def listen_forever():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((TCP_IP, TCP_PORT))
     s.listen(1)
+    print(f'Server started at port {TCP_PORT}')
 
     while True:
         conn, addr = s.accept()

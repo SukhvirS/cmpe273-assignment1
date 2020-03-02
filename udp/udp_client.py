@@ -12,7 +12,7 @@ retryCount = 10
 f = open('./upload.txt')
 fileData = [line[0:len(line)-1] for line in f.readlines()]
 
-def send(id=0):
+def send():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.settimeout(0.2)  # timeout of 20ms
 
@@ -71,4 +71,5 @@ def get_client_id():
     id = input("Enter client id:")
     return id
 
-send(get_client_id())
+# send(get_client_id())
+send()

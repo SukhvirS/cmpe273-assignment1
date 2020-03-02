@@ -1,4 +1,3 @@
-Enter client id:A
 Connected to the server
 Starting a file (./upload.txt) upload...
 Received ack(2) from the server.
